@@ -1,0 +1,29 @@
+# all information what needed to be hidden put in to docker-compose.override.yml
+version: "3"
+
+services:
+  admin:
+    image: nginx:latest
+    volumes:
+      - ./:/code:rw
+      - ./docker/nginx.conf:/etc/nginx/conf.d/default.conf
+    links:
+      - php
+    # set env property ( VIRTUAL_HOST ) in docker-compose.override.yml
+  php:
+    build: ./docker/php
+    volumes:
+      - ./:/code:rw
+    links:
+      - db
+  db:
+    image: mysql:latest
+    volumes:
+      - ./docker/database:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=spn # SET MYSQL_ROOT_PASSWORD in docker-compose.override.yml
+
+networks:
+  default:
+    external:
+      name: nginx-proxy
