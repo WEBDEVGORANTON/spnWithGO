@@ -7,22 +7,26 @@ services:
     volumes:
       - ./:/code:rw
       - ./docker/nginx.conf:/etc/nginx/conf.d/default.conf
-    links:
+    depends_on:
       - php
+    restart: always
     # set env property ( VIRTUAL_HOST ) in docker-compose.override.yml
   php:
     build: ./docker/php
     volumes:
       - ./:/code:rw
+    working_dir: /code
     links:
       - db
+    restart: always
   db:
     image: mysql:latest
     volumes:
-      - ./docker/database:/var/lib/mysql
+      - ./docker/database:/var/lib/mysql:rw
+      - ./docker/db.cnf:/etc/mysql/conf.d/use_native_password_auth_method.cnf
     environment:
       - MYSQL_DATABASE=spn # SET MYSQL_ROOT_PASSWORD in docker-compose.override.yml
-
+    restart: always
 networks:
   default:
     external:
