@@ -26,15 +26,4 @@ class ServiceResource implements HasEloquentModel
         // init model by default
         $this->setModel(new Service());
     }
-
-
-    public function storeCert($type, $body)
-    {
-
-    }
-
-    public function getCert($hash)
-    {
-
-    }
 }

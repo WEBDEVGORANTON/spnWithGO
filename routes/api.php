@@ -16,3 +16,8 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+Route::post('/certifications/store', 'CertificationsController@store');
+Route::put('/certifications/update/{certificate}', 'CertificationsController@update');
+Route::delete('/certifications/delete/{certificate}', 'CertificationsController@delete');

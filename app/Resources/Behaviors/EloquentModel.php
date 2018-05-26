@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Model;
 trait EloquentModel
 {
     protected $_model;
+    protected $_model_save_status = false;
 
     public function setModel(Model $model, callable $callback = null)
     {
@@ -29,6 +30,34 @@ trait EloquentModel
 
     public function getModel()
     {
+        $this->_model_save_status = false;
         return $this->_model;
+    }
+
+    public function isModelInitialize()
+    {
+        return (bool) $this->_model;
+    }
+
+    public function saveModel()
+    {
+        $this->getModel()->save();
+        $this->_model_save_status = true;
+        return $this;
+    }
+
+    public function getSaveStatusModel()
+    {
+        return $this->_model_save_status = false;
+    }
+
+    public function fillModel(array $data)
+    {
+        $model = $this->getModel();
+        $model->fill($data);
+
+        $this->setModel($model);
+
+        return $this;
     }
 }

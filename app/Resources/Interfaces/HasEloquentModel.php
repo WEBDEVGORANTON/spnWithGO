@@ -20,4 +20,11 @@ interface HasEloquentModel {
      * @return self
      */
     public function setModel(Model $model, callable $beforeInit = null);
+
+    /**
+     * Know what model has been initialize
+     *
+     * @return boolean
+     */
+    public function isModelInitialize();
 }
